@@ -1,0 +1,60 @@
+name "乳胶自动化"
+
+-- @fluidExtractor
+-- 液体提取机，从原木提取乳胶
+
+-- @router
+-- 模块化路由器，放置原木
+
+-- @latexProcessor
+-- 乳胶处理机，将乳胶加工成干橡胶
+
+-- @fluidTank
+-- 流体抽屉，储存中间产物，液体乳胶
+
+-- @itemTank
+-- 物品抽屉，储存最终产物，干橡胶
+
+-- @MEInterface
+-- ME接口，提供原木
+
+-- @energyCube
+-- 能量立体，供能
+
+-- @waterTank
+-- 水槽，提供水源
+
+
+-- 供能
+every tick do 
+    input fe:: from "energyCube" each side
+    output fe:: to "fluidExtractor" each side
+    output fe:: to "latexProcessor" each side
+end
+
+-- 传输
+every 20 ticks do 
+    -- 1. 提供原木
+    input from "MEInterface"
+    output to "router" top side
+    forget
+
+    -- 2. 提取乳胶
+    input fluid:: from "fluidExtractor" top side
+    output fluid:: to "fluidTank" each side
+    forget
+
+    -- 3. 处理乳胶
+    input fluid:: from "fluidTank" each side
+    output fluid:: to each "latexProcessor" top side
+    forget 
+
+    input fluid:: from "waterTank" each side
+    output fluid:: to each "latexProcessor" top side
+    forget
+
+    -- 4. 储存干橡胶
+    input from "latexProcessor" top side
+    output to "itemTank" top side
+    forget
+end
