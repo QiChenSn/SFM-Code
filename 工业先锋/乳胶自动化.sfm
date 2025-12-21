@@ -47,8 +47,8 @@ every 20 ticks do
     -- 3. 处理乳胶
     input fluid:: from "fluidTank" each side
     -- 可选：保留部分橡胶（单位mb）
-    -- input retian 50000 fluid:: from "fluidTank" each side
-    output fluid:: to each "latexProcessor" top side
+    -- input retain 50000 fluid:: from "fluidTank" each side
+    output retain 1000 fluid:industrialforegoing:latex to each "latexProcessor" top side
     forget 
 
     input fluid:: from "waterTank" each side
