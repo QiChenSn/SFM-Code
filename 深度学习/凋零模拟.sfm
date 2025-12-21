@@ -1,0 +1,46 @@
+name "凋零模拟"
+
+-- @simulationChamber
+-- 模拟室，用于训练数据模型
+
+-- @lootFabricator
+-- 战利品制造机，生成产物
+
+-- @energyCube
+-- 能量立体，供能
+
+-- @MEInterface
+-- ME接口，预测矩阵
+
+-- @patternProvider
+-- 样板供应器，回收产物
+
+-- 供能
+every tick do 
+    input fe:: from "energyCube" each side
+    output fe:: to "simulationChamber" each side
+    output fe:: to "lootFabricator" each side
+end
+
+every 20 ticks do 
+    -- 1. 输入预测矩阵
+    input from "MEInterface"
+    output retain 4 to each "simulationChamber" top side
+    forget
+
+    -- 2. 获取回收通用末地产物
+    input hostilenetworks:end_prediction from "simulationChamber" top side
+    output to "patternProvider" top side
+    forget
+
+    -- 3. 制造下界之星
+    input hostilenetworks:prediction from "simulationChamber" top side
+    output retain 1 hostilenetworks:prediction to each "lootFabricator" top side
+    forget
+
+
+    -- 4. 回收下界之星
+    input from "lootFabricator" top side
+    output to "patternProvider" top side
+    forget
+end
