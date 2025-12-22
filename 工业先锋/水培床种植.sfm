@@ -1,0 +1,39 @@
+name "水培床种植"
+
+-- @hydroponicBed
+-- 水培床，用于种植作物
+
+-- @MEInterface
+-- ME接口,提供以太
+
+-- @energyCube
+-- 能量立方，供能
+
+-- @patternProvider
+-- 样板供应器，回收产物
+
+-- @waterCube
+-- 水槽
+
+-- 供能
+every tick do 
+    input fe:: from "energyCube" each side
+    output fe:: to "hydroponicBed" each side
+end
+
+every 20 ticks do 
+    -- 1. 输入以太
+    input fluid:industrialforegoing:ether_gas from "MEInterface"
+    output retain 10 fluid:industrialforegoing:ether_gas to each "hydroponicBed" top side
+    forget
+
+    -- 2. 输入水
+    input fluid:: from "waterCube"
+    output fluid:: to each "hydroponicBed" bottom side
+    forget
+
+    -- 3. 回收作物
+    input from "hydroponicBed" top side
+    output to "patternProvider" top side
+    forget
+end
