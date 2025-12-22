@@ -9,8 +9,9 @@ name "水培床种植"
 -- @energyCube
 -- 能量立方，供能
 
--- @patternProvider
--- 样板供应器，回收产物
+-- @MEExInterface
+-- ME拓展接口，回收产物
+-- 由于产物类型过多，样板供应器和ME接口无法处理
 
 -- @waterCube
 -- 水槽
@@ -34,6 +35,6 @@ every 20 ticks do
 
     -- 3. 回收作物
     input from "hydroponicBed" top side
-    output to "patternProvider" top side
+    output to "MEExInterface" top side
     forget
 end
