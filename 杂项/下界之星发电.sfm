@@ -1,0 +1,22 @@
+name "下界之星发电"
+
+-- @generator
+-- 下界之星发电机，使用下界之星发电
+
+-- @energyOutput
+-- 输出电力
+
+-- @MEInterface
+-- ME接口，提供下界之星
+
+-- 输出电力
+every tick do 
+    input fe:: from "generator" each side
+    output fe:: to "energyOutput" each side
+end
+
+-- 传输下界之星
+every 20 ticks do 
+    input minecraft:nether_star from "MEInterface"
+    output retain 2 minecraft:nether_star to each "generator" top side
+end
