@@ -25,7 +25,7 @@ end
 every 20 ticks do 
     -- 1. 输入预测矩阵
     input from "MEInterface"
-    output retain 4 to each "simulationChamber" top side
+    output retain 4 hostilenetworks:prediction_matrix to each "simulationChamber" top side
     forget
 
     -- 2. 获取回收通用末地产物
